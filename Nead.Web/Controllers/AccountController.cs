@@ -12,10 +12,10 @@ namespace Nead.Web.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<Usuario> _signInManager;
         private readonly ILogger _logger;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
+        public AccountController(SignInManager<Usuario> signInManager, ILogger<AccountController> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

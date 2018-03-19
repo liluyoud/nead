@@ -1,0 +1,1 @@
+﻿1. Quando tela celular, não mostrar caminho no título
