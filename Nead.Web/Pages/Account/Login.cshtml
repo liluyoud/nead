@@ -1,82 +1,69 @@
-@page
+﻿@page
 @model LoginModel
 
 @{
+    Layout = "_LayoutEmpty";
     ViewData["Title"] = "Log in";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+<section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);">
+    <div class="login-box card">
+        <a href="javascript:void(0)" class="text-center db">
+            <img src="~/assets/images/Logo-UniSL-Large.png" alt="Home" class="img-responsive" /><br />
+        </a>
+
+        <div class="card-body">
+            <form method="post" id="loginform" class="form-horizontal form-material">
+                <div class="form-group m-t-40">
+                    <input asp-for="Input.Cpf" class="form-control" required placeholder="CPF" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <input asp-for="Input.Senha" class="form-control" required minlength="6" placeholder="Senha" />
                 </div>
                 <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
+                    <div class="checkbox checkbox-primary pull-left p-t-0">
+                        <input asp-for="Input.Lembrar" id="checkbox-signup" type="checkbox" />
+                        <label for="checkbox-signup"> Lembrar Login </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Log in</button>
+                <div class="form-group text-center m-t-20">
+                    <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
                 </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
+                <div class="form-group m-b-0">
+                    <p class="text-center">Não tem uma conta? <br /><a asp-page="./register" class="text-primary m-l-5"><b>Cadastre-se</b></a></p>
+                </div>
+                <hr />
+                <div class="form-group m-b-0">
+                    <p class="text-center"><a href="javascript:void(0)" id="to-recover" class="text-primary"><i class="fa fa-lock m-r-5"></i> Esqueceu sua senha?</a></p>
                 </div>
             </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
+
+            <form class="form-horizontal" id="recoverform" action="index.html">
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <h3>Recuperar senha</h3>
+                        <p class="text-muted">Informe seu email que instruções para a criação de nova senha será enviado para você.</p>
                     </div>
-                }
-                else
-                {
-                    <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" required="" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Criar nova senha</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
-    @await  Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/assets/plugins/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+    <script>
+        $('#Input_Cpf').mask('000.000.000-00', { clearIfNotMatch: true });
+    </script>
 }
+

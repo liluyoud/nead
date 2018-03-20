@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Nead.Web.Data;
+using Nead.Web.Entities;
 using Nead.Web.Models;
 using Nead.Web.Services;
 
@@ -20,17 +21,20 @@ namespace Nead.Web.Pages.Account
         private readonly UserManager<Usuario> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly NeadContext _context;
 
         public RegisterModel(
             UserManager<Usuario> userManager,
             SignInManager<Usuario> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            NeadContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -49,10 +53,20 @@ namespace Nead.Web.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new Usuario { UserName = Input.Cpf, Email = Input.Email };
+                var user = new Usuario { UserName = Input.Cpf, Email = Input.Email, PhoneNumber = Input.Celular };
                 var result = await _userManager.CreateAsync(user, Input.Senha);
                 if (result.Succeeded)
                 {
+                    Pessoa pessoa = new Pessoa()
+                    {
+                        Cpf = Input.Cpf,
+                        Nome = Input.Nome,
+                        Celular = Input.Celular,
+                        Email = Input.Email
+                    };
+                    _context.Add(pessoa);
+                    await _context.SaveChangesAsync();
+
                     _logger.LogInformation($"Usuário {Input.Cpf} criou nova conta.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -8,21 +8,15 @@ namespace Nead.Web.Models
 {
     public class RegisterDto
     {
-        [Required]
         public string Nome { get; set; }
 
-        [Required]
         public string Cpf { get; set; }
 
-        [Required]
         public string Celular { get; set; }
 
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "A {0} deve ter no mínimo {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Senha { get; set; }
 
