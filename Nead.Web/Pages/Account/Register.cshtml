@@ -1,37 +1,74 @@
-@page
+﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    Layout = "_LayoutEmpty";
+    ViewData["Title"] = "Registro";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+<section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);">
+    <div class="login-box card">
+        <a href="javascript:void(0)" class="text-center db">
+            <img src="~/assets/images/Logo-UniSL-Large.png" alt="Home" class="img-responsive" /><br />
+        </a>
+        <div class="alert alert-info">
+            <h3 class="box-title m-t-40 m-b-0">Cadastre-se agora</h3><small>Informe seus dados corretamente</small>
+        </div>
+        <div class="card-body">
+            <form asp-route-returnUrl="@Model.ReturnUrl" id="loginform" method="post" class="form-horizontal form-material">
+                <div class="form-group m-t-20">
+                    <div class="col-xs-12">
+                        <input asp-for="Input.Nome" id="Nome" class="form-control" placeholder="Nome Completo">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input asp-for="Input.Cpf" class="form-control" placeholder="Cpf">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input asp-for="Input.Email" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input asp-for="Input.Celular" class="form-control" placeholder="Celular">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input asp-for="Input.Senha" class="form-control" placeholder="Senha">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input asp-for="Input.SenhaConfirmacao" class="form-control" placeholder="Repita sua Senha">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="checkbox checkbox-primary p-t-0">
+                            <input id="checkbox-signup" type="checkbox">
+                            <label for="checkbox-signup"> Eu concordo com os <a href="#">Termos de Uso</a></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Cadastrar</button>
+                    </div>
+                </div>
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">
+                        <p>Já tem uma conta? <a href="login2.html" class="text-info m-l-5"><b>Login</b></a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+
+@*@section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }*@

@@ -1,13 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Nead.Web.Data;
+using Nead.Web.Models;
 using Nead.Web.Services;
 
 namespace Nead.Web.Pages.Account
@@ -16,13 +18,13 @@ namespace Nead.Web.Pages.Account
     {
         private readonly SignInManager<Usuario> _signInManager;
         private readonly UserManager<Usuario> _userManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<Usuario> userManager,
             SignInManager<Usuario> signInManager,
-            ILogger<LoginModel> logger,
+            ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -32,28 +34,10 @@ namespace Nead.Web.Pages.Account
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public RegisterDto Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
-        public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-        }
 
         public void OnGet(string returnUrl = null)
         {
@@ -65,11 +49,11 @@ namespace Nead.Web.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new Usuario { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var user = new Usuario { UserName = Input.Cpf, Email = Input.Email };
+                var result = await _userManager.CreateAsync(user, Input.Senha);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation($"Usuário {Input.Cpf} criou nova conta.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
@@ -84,7 +68,6 @@ namespace Nead.Web.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

@@ -27,7 +27,7 @@ namespace Nead.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Account/Login");
         }
     }
 }

@@ -1,1 +1,5 @@
 ﻿1. Quando tela celular, não mostrar caminho no título
+2. button disabled no register
+3. validação register
+3. fazer logout
+3. pagina login
